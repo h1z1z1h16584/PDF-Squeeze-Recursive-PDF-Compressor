@@ -1,0 +1,12 @@
+# Ignore the actual PDF files
+Input/
+Output/
+
+# Ignore the Ghostscript portable folder if you still have it
+GS_Portable/
+GS_Files/
+
+# Ignore log files or temporary system files
+*.log
+.DS_Store
+Thumbs.db
