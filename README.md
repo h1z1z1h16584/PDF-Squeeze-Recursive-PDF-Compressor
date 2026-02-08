@@ -55,7 +55,6 @@ You can change the compression level by editing the `$gsArgs` array in `Compress
 
 ## 🛡️ Safety & Privacy
 * **Non-Destructive:** This script **never** deletes or modifies your files in the `Input` folder.
-* **Git-Safe:** The included `.gitignore` ensures your private PDFs are not accidentally uploaded if you push this to a public repository.
 
 ---
 
