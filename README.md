@@ -6,7 +6,7 @@ A robust, portable, cross-platform utility that leverages **Ghostscript** to bat
 
 ## ✨ Features
 
-* **Cross-Platform:** Includes both Windows (`.ps1` / `.bat`) and Linux (`.sh` / `.desktop`) launchers.
+* **Cross-Platform:** Includes both Windows (`.ps1` / `.bat`) and Linux (`.sh`) launchers.
 * **In-Place Folder Scanning:** Run the script from any directory—it automatically compresses all PDFs in the script's folder and subfolders into an `Output` folder.
 * **Infinite Loop Protection:** Automatically skips the `Output` directory during scanning to prevent re-compressing already processed files.
 * **Smart Compression:** Compares file sizes post-compression; if the compressed version is larger, it keeps a copy of the original instead.
@@ -21,7 +21,7 @@ A robust, portable, cross-platform utility that leverages **Ghostscript** to bat
 
 | Operating System | Prerequisite Package | Installation Command / Link |
 | :--- | :--- | :--- |
-| **Windows** | Ghostscript (64-bit) | [Ghostscript Downloads](https://ghostscript.com/releases/gsdnld.html)<br>*(Script auto-detects `gswin64c.exe` in standard paths)* |
+| **Windows** | Ghostscript (64-bit) | [Ghostscript Downloads](https://ghostscript.com/releases/gsdnld.html) |
 | **Ubuntu / Debian** | `ghostscript`, `libnotify-bin` | `sudo apt install ghostscript libnotify-bin` |
 | **Fedora / RHEL** | `ghostscript`, `libnotify` | `sudo dnf install ghostscript libnotify` |
 | **Arch / Manjaro** | `ghostscript`, `libnotify` | `sudo pacman -S ghostscript libnotify` |
@@ -39,9 +39,10 @@ A robust, portable, cross-platform utility that leverages **Ghostscript** to bat
 ### 🐧 Linux
 1. Place `compress_pdf.sh` in the folder containing your PDFs (or subfolders of PDFs).
 2. Open a terminal in that folder and grant execution permissions:
-   ```bash
-   chmod +x compress_pdf.sh
-
+   `chmod +x compress_pdf.sh`
+3. Run the script: `./compress_pdf.sh` in termainal to view progress or just Double-click **compress_pdf.sh**
+4. A notification will pop up when compression completes.
+5. Retrieve your optimized files inside the newly created **`Output/`** folder.
 
 
 ---
