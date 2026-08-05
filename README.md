@@ -1,6 +1,3 @@
-================================================
-FILE: README.md
-================================================
 # 📄 PDF-Squeeze: Recursive PDF Compressor
 
 A robust, portable, cross-platform utility that leverages **Ghostscript** to batch-compress PDF files on **Windows** and **Linux**. It scans its current directory recursively, preserves your subfolder structure, prevents files from accidentally becoming larger, and triggers a desktop notification when finished.
