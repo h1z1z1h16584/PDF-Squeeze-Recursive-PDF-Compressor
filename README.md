@@ -40,7 +40,7 @@ A robust, portable, cross-platform utility that leverages **Ghostscript** to bat
 1. Place `compress_pdf.sh` in the folder containing your PDFs (or subfolders of PDFs).
 2. Open a terminal in that folder and grant execution permissions:
    `chmod +x compress_pdf.sh`
-3. Run the script: `./compress_pdf.sh` in termainal to view progress or just Double-click **compress_pdf.sh**
+3. Run the script: `./compress_pdf.sh` in termainal to view progress or just Double-click **`compress_pdf.sh`**
 4. A notification will pop up when compression completes.
 5. Retrieve your optimized files inside the newly created **`Output/`** folder.
 
