@@ -1,34 +1,46 @@
-# 1. Initialize Paths
+# 1. Initialize Paths (Run from script's current directory)
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
 Set-Location $scriptPath
 
-$sourceDir = Join-Path $scriptPath "Input"
+$sourceDir = $scriptPath
 $outputDir = Join-Path $scriptPath "Output"
 $totalOldSize = 0
 $totalNewSize = 0
 
-# Create folders
-if (!(Test-Path $sourceDir)) { New-Item -ItemType Directory -Force -Path $sourceDir }
+# Create Output folder if it does not exist
 if (!(Test-Path $outputDir)) { New-Item -ItemType Directory -Force -Path $outputDir }
+
+# Helper Function: Native Windows Desktop Notification
+function Show-Notification ($title, $message, $icon = 'Info') {
+    Add-Type -AssemblyName System.Windows.Forms
+    $notify = New-Object System.Windows.Forms.NotifyIcon
+    $notify.Icon = [System.Drawing.SystemIcons]::Information
+    $notify.Visible = $true
+    $notify.ShowBalloonTip(5000, $title, $message, $icon)
+    Start-Sleep -Seconds 2
+    $notify.Dispose()
+}
 
 # 2. Find Ghostscript
 $gsExe = Get-Command "gswin64c.exe" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source
 if (-not $gsExe) {
     $searchPaths = @("C:\Program Files\gs", "C:\Program Files (x86)\gs", "$env:LOCALAPPDATA\gs")
     $gsExe = Get-ChildItem -Path $searchPaths -Filter "gswin64c.exe" -Recurse -ErrorAction SilentlyContinue | 
-              Select-Object -ExpandProperty FullName -First 1
+               Select-Object -ExpandProperty FullName -First 1
 }
 
 if (-not $gsExe) {
     Write-Host "ERROR: Ghostscript not found!" -ForegroundColor Red
+    Show-Notification "PDF Compression Error" "Ghostscript (gswin64c.exe) was not found on this system." "Error"
     Pause; exit
 }
 
-# 3. Process Files Recursively
-$pdfFiles = Get-ChildItem -Path $sourceDir -Filter *.pdf -Recurse
+# 3. Process Files Recursively (excluding the Output directory itself)
+$pdfFiles = @(Get-ChildItem -Path $sourceDir -Filter *.pdf -Recurse | Where-Object { $_.FullName -notlike "$outputDir*" })
 
 if ($pdfFiles.Count -eq 0) {
     Write-Host "No PDFs found in '$sourceDir'." -ForegroundColor Yellow
+    Show-Notification "PDF Compression" "No PDF files found to compress." "Warning"
 } else {
     foreach ($file in $pdfFiles) {
         $relativePath = $file.FullName.Substring($sourceDir.Length + 1)
@@ -73,5 +85,8 @@ if ($pdfFiles.Count -eq 0) {
     Write-Host "`n===============================================" -ForegroundColor Cyan
     Write-Host "TOTAL SPACE SAVED: $savedMB MB" -ForegroundColor Green
     Write-Host "===============================================" -ForegroundColor Cyan
+
+    # 4. Trigger Windows Desktop Notification
+    Show-Notification "PDF Compression Complete" "Processed $($pdfFiles.Count) file(s).`nTotal Space Saved: $savedMB MB"
 }
 Pause
